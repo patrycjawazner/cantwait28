@@ -35,9 +35,7 @@ class _AddPageState extends State<AddPage> {
         child: BlocBuilder<AddCubit, AddState>(
           builder: (context, state) {
             return Scaffold(
-              appBar: AppBar(
-                title:  Text(state.saved? 'True' : 'False'),
-                //title: const Text('Add new upcoming title),
+              appBar: AppBar(title: const Text('Add new upcoming title'),
                 actions: [
                   IconButton(
                     onPressed: _imageURL == null ||
