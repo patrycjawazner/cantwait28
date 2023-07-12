@@ -22,8 +22,15 @@ class _AddPageState extends State<AddPage> {
       create: (context) => AddCubit(),
       child: BlocListener<AddCubit, AddState>(
         listener: (context, state) {
+          if(state.saved) {
           Navigator.of(context).pop();
-          
+          }
+          if(state.errorMessage.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage),
+            backgroundColor: Colors.amber,
+            ),
+            );
+          }
         },
         child: BlocBuilder<AddCubit, AddState>(
           builder: (context, state) {
