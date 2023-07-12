@@ -20,11 +20,17 @@ class _AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddCubit(),
+      child: BlocListener<AddCubit, AddState>(
+        listener: (context, state) {
+          Navigator.of(context).pop();
+          
+        },
         child: BlocBuilder<AddCubit, AddState>(
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Add new upcoming title'),
+                title:  Text(state.saved? 'True' : 'False'),
+                //title: const Text('Add new upcoming title),
                 actions: [
                   IconButton(
                     onPressed: _imageURL == null ||
@@ -63,8 +69,8 @@ class _AddPageState extends State<AddPage> {
             );
           },
         ),
-      );
-    
+      ),
+    );
   }
 }
 
