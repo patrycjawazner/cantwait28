@@ -22,20 +22,23 @@ class _AddPageState extends State<AddPage> {
       create: (context) => AddCubit(),
       child: BlocListener<AddCubit, AddState>(
         listener: (context, state) {
-          if(state.saved) {
-          Navigator.of(context).pop();
+          if (state.saved) {
+            Navigator.of(context).pop();
           }
-          if(state.errorMessage.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage),
-            backgroundColor: Colors.amber,
-            ),
+          if (state.errorMessage.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage),
+                backgroundColor: Colors.amber,
+              ),
             );
           }
         },
         child: BlocBuilder<AddCubit, AddState>(
           builder: (context, state) {
             return Scaffold(
-              appBar: AppBar(title: const Text('Add new upcoming title'),
+              appBar: AppBar(
+                title: const Text('Add new upcoming title'),
                 actions: [
                   IconButton(
                     onPressed: _imageURL == null ||
