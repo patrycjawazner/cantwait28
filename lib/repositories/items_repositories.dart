@@ -1,9 +1,17 @@
 import 'package:cantwait28/models/item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ItemsRepository {
   Stream<List<ItemModel>> getItemStream() {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+
     return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
         .collection('items')
         .orderBy('release_date')
         .snapshots()
@@ -20,12 +28,29 @@ class ItemsRepository {
   }
 
   Future<void> delete({required String id}) {
-    return FirebaseFirestore.instance.collection('items').doc(id).delete();
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .doc(id)
+        .delete();
   }
 
   Future<ItemModel> get({required String id}) async {
-    final doc =
-        await FirebaseFirestore.instance.collection('items').doc(id).get();
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .doc(id)
+        .get();
 
     return ItemModel(
       id: doc.id,
@@ -40,7 +65,15 @@ class ItemsRepository {
     String imageURL,
     DateTime releaseDate,
   ) async {
-    await FirebaseFirestore.instance.collection('items').add(
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('User is not logged in');
+    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .add(
       {
         'title': title,
         'image_url': imageURL,

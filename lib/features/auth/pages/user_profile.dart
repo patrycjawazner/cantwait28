@@ -11,11 +11,9 @@ class UserProfile extends StatelessWidget {
         EmailProviderConfiguration(),
       ],
       actions: [
-        SignedOutAction(
-          (context) {
-            Navigator.of(context).pop();
-          },
-        ),
+        SignedOutAction((context) {
+          Navigator.of(context).pop();
+        }),
       ],
       avatarSize: 24,
     );
